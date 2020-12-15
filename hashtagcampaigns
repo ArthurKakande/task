@@ -1,0 +1,53 @@
+#Installing library to link to twitter
+library('rtweet')
+
+#Fellow steps in the presentation to link your tool (R studio for rtweet, tweepy for Python users using Pycharm or spyder, etc)
+
+#Scrapping the data
+GBVdata <- search_tweets("#SayNoToOnlineGBV", n=100, include_rts = T)
+View(GBVdata)
+
+#installling predownlaoded data obatined from an external tool such as workbenchdata
+ourdata <- read.csv("ogbvdata.csv", header = T)
+View(ourdata)
+
+#Unique Mentions (How many different people have mentioned your hashtag or brand name)
+list_of_unique_authors <- unique(ourdata$screen_name)
+length(list_of_unique_authors)
+
+#Total Mentions (number of times your hashtag has been used/or your brand name has appeared on socail media)
+NROW(ourdata$screen_name)
+
+#Selecting Influencers
+popular <- table(ourdata$screen_name)
+View(popular)
+
+#Turn to a dataframme, order it and select the top number of influencers you need
+popular <- as.data.frame(popular)
+popular <- popular[order(-popular$Freq),] #view the data in descending order
+head(popular, 15) #selecting the top 15 with the highest volume
+
+#Senitment Analysis
+library(sentimentr)
+first_tweet <- c("This is the worst telecom operator i have ever seen. Very slow internet, very expensive")
+second_tweet <- c("This is the best telecom operator i have ever seen. Very fast internet, very cheap and affordable.thank you for the good work")
+
+sentiment(first_tweet)
+sentiment(second_tweet)
+
+#Network Visualization
+library(igraph)
+networkdata <- data.frame(ourdata$screen_name , ourdata$retweeted_status_screen_name)
+viz <- graph.data.frame(networkdata, directed = T)
+plot(viz)
+
+#Maps
+mapdata <- read.csv("ogbvdata2.csv", header = T)
+library(leaflet)
+#create the object
+basicmap <- leaflet()
+#add the map background
+basicmap <- addTiles(basicmap)
+#add the data
+basicmap <- addMarkers(basicmap, lng=mapdata$Longitude, lat=mapdata$Latitude, popup=mapdata$Username)
+basicmap
