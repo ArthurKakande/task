@@ -7,7 +7,7 @@ library('rtweet')
 GBVdata <- search_tweets("#SayNoToOnlineGBV", n=100, include_rts = T)
 View(GBVdata)
 
-#installling predownlaoded data obatined from an external tool such as workbenchdata
+#installling pre-downlaoded data obatined from an external tool such as workbenchdata
 ourdata <- read.csv("ogbvdata.csv", header = T)
 View(ourdata)
 
@@ -27,7 +27,7 @@ popular <- as.data.frame(popular)
 popular <- popular[order(-popular$Freq),] #view the data in descending order
 head(popular, 15) #selecting the top 15 with the highest volume
 
-#Senitment Analysis
+#Sentiment Analysis
 library(sentimentr)
 first_tweet <- c("This is the worst telecom operator i have ever seen. Very slow internet, very expensive")
 second_tweet <- c("This is the best telecom operator i have ever seen. Very fast internet, very cheap and affordable.thank you for the good work")
